@@ -4,5 +4,24 @@
   <body>
     <script src="controller.js"></script>
     <p> Some text here </p>
+    <canvas class="canvas"></canvas>
+
+    <script>
+        let canvas = document.querySelector(".canvas");
+        let ctx = canvas.getContext("2d");
+
+        canvas.setAttribute("width", window.innerWidth);
+        canvas.setAttribute("height", window.innerHeight);
+
+        window.addEventListener("resize", () => {
+            canvas.setAttribute("width", window.innerWidth);
+            canvas.setAttribute("height", window.innerHeight);
+        });
+
+
+        
+
+    </script>
+
   </body>
 </html>

@@ -4,6 +4,7 @@ sensor.start();
 
 
 let initPos;
+let dist;
 let calibrate = true;
 
 document.body.addEventListener("click", () => {calibrate = true})
@@ -15,11 +16,31 @@ function handleSensor(e){
   if(calibrate){
     initPos = angles;
     calibrate = false;
+    console.log("recalibrated")
   }
   
-  let dist = angles.map((angle, i) => calcDist(angle, initPos[i]));
-  console.log(dist);
+  dist = angles.map((angle, i) => calcDist(angle, initPos[i]));
+  // console.log(dist);
+  draw(dist);
 }   
+
+
+function draw(dist_data){
+  console.log(dist_data);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // let distances = dist_data;
+  let x = dist_data[0] + window.innerWidth/2;
+  let y = dist_data[1] + window.innerHeight/2;
+  console.log(x);
+  console.log(y);
+  ctx.beginPath();
+  ctx.arc(x, y, 20, 0, 2 * Math.PI);
+  ctx.fillStyle = "#f44336";
+  ctx.fill();
+  ctx.closePath();
+  // requestAnimationFrame(() => draw());
+}
+
 
 
 
@@ -43,6 +64,6 @@ function calcDist(angle, initAngle) {
 
   // the '800' value is the virtual distance from the phone to the canvas
   // can also be viewed as the sensitivity
-  let dist = Math.round(-800 * Math.tan(angle * (Math.PI / 180)));
+  let dist = Math.round(-400 * Math.tan(angle * (Math.PI / 180)));
   return dist;
 }
