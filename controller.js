@@ -28,7 +28,6 @@ function handleSensor(e){
 function draw(dist_data){
   console.log(dist_data);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // let distances = dist_data;
   let x = dist_data[0] + window.innerWidth/2;
   let y = dist_data[1] + window.innerHeight/2;
   console.log(x);
@@ -38,7 +37,6 @@ function draw(dist_data){
   ctx.fillStyle = "#f44336";
   ctx.fill();
   ctx.closePath();
-  // requestAnimationFrame(() => draw());
 }
 
 
@@ -62,7 +60,7 @@ function calcDist(angle, initAngle) {
   angle = angle < 0 ? angle + 360 : angle;
   angle = angle > 180 ? angle - 360 : angle;
 
-  // the '800' value is the virtual distance from the phone to the canvas
+  // the 'number' value is the virtual distance from the phone to the canvas
   // can also be viewed as the sensitivity
   let dist = Math.round(-400 * Math.tan(angle * (Math.PI / 180)));
   return dist;
