@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Pictionairy</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/contoller.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <script>
+      let fullPath = [];
+      function mouseDown() {
+        console.log('down');
+        //document.getElementById("drawButton").innerHTML = "Drawing..";
+        pen = true;
+        viewLaser = false;
+      }
+
+      function mouseUp() {
+        //show that pen was lifted
+        fullPath.push([-9999,-9999]);
+        console.log("Lifted");
+        
+        //document.getElementById("drawButton").innerHTML = "Draw";
+        pen = false;
+        viewLaser = true;  
+      }
+
+    </script>
+    <script src="../js/controller.js"></script>
+</head>
+
+<body onload="init()">
+    
+  <div class="topnav" id="myTopnav">
+    <a href="#home" class="active rainbow">PictionAIRy</a>
+    <a style="float: right;" id=""onclick="logout()">Logout</a>
+    <a style="float: right" href='./../index.html' id="leaveGame">Leave Game</a>
+    <a href="javascript:void(0);" class="icon" onclick="navBar()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+    <div class='page-header'>
+        <div class="row" style="height:5%; text-align: center;">
+            <h1 id='chosenWord'>Place word here</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div id="app"> 
+            <div class="base-timer">
+            <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <g class="base-timer__circle">
+                <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+                <path
+                  id="base-timer-path-remaining"
+                  stroke-dasharray="283"
+                  class="base-timer__path-remaining"
+                  d="
+                    M 50, 50
+                    m -45, 0
+                    a 45,45 0 1,0 90,0
+                    a 45,45 0 1,0 -90,0
+                  "
+                ></path>
+              </g>
+            </svg>
+            <span id="base-timer-label" class="base-timer__label"></span>
+          </div>
+        </div>
+    </div>
+    <br>
+    <button type="button" class="btn btn-primary drawControlButton" ontouchstart="mouseDown()" ontouchend="mouseUp()" id='drawButton'>Draw</button>
+    <div id="create" class="collapse">
+        <!-- BLANK -->
+    </div>
+    <br />
+    <button type="button" class="btn btn-primary drawControlButton" onclick="startFullRound()">Clear</button>
+    <div id="create" class="collapse">
+        <!-- BLANK -->
+    </div>
+    <div class="card bg-color">
+      <div class="card-body text-center d-flex justify-content-center align-items-center flex-column">
+        <button id="color-picker-3" class="btn btn-outline-primary btn-sm">Colour Picker</button>
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary drawControlButton" onclick="flipCalibrate()">Calibrate</button>
+    <div id="create" class="collapse">
+        <!-- BLANK -->
+    </div>
+
+    <!-- Overlay for chosing words and disabling -->
+    <div id="disableOverlay">
+      <div id="disabled">Drawing Disabled!</div>
+    </div>
+
+    <div id="chooseOverlay" >
+        <div style="position:absolute; color:white; left: 50%; top: 20%;"><h2 id="chooseTimer">10</h2></div>
+        <div class="col-sm-4" style="position:absolute; left: 42%; top: 40%;"> <button id='choice-1' type="button" class="btn btn-primary" onclick="choseOption(id)">Choice 1</button></div>
+        <div class="col-sm-4" style="position:absolute; left: 42%; top: 50%;"> <button id='choice-2' type="button" class="btn btn-primary" onclick="choseOption(id)">Choice 2</button></div>
+        <div class="col-sm-4" style="position:absolute; left: 42%; top: 60%;"> <button id='choice-3' type="button" class="btn btn-primary" onclick="choseOption(id)">Choice 3</button></div>
+    </div>
+
+   
+</body>
+
+</html>

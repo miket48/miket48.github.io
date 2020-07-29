@@ -1,0 +1,246 @@
+textarea {
+    overflow-y: scroll;
+    height: 100%;
+    resize: none; /* Remove this if you want the user to resize the textarea */
+    width: 100%;
+}
+
+body{
+  background: red; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left, orange , yellow, green, cyan, blue, violet); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, orange, yellow, green, cyan, blue, violet); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, orange, yellow, green, cyan, blue, violet); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, orange , yellow, green, cyan, blue, violet); /* Standard syntax (must be last) */
+}
+
+.sideBar{
+    border: 1px solid black; 
+    border-radius: 5px;
+}
+
+.topnav {
+    overflow: hidden;
+    background-color: lightgray;
+  }
+  
+.topnav a {
+    float: left;
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 15px 17px;
+    text-decoration: none;
+    font-size: 22px;
+}
+
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.topnav a.active {
+    background-color: grey;
+    color: white;
+}
+
+.topnav .icon {
+    display: none;
+}
+
+@media screen and (min-width: 533px){
+  #inputBar{
+    height: 100%;
+  }
+  #Drawing{
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    height: 300px;
+    width: 400px;
+  }
+  #mobilePage{
+    height: 100%;
+  }
+  #sidePanel{
+    height: 100%;
+  }
+  #inputBar{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 10%;
+  }
+}
+
+@media screen and (min-width: 800px){
+  #inputBar{
+    height: 100%;
+    position: static;
+  }
+  #Drawing{
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    height: 450px;
+    width: 600px;
+  }
+  #mobilePage{
+    height: 100%;
+  }
+  #sidePanel{
+    height: 100%;
+  }
+}
+
+@media screen and (min-width: 1067px)
+{
+  #inputBar{
+    height: 100%;
+  }
+  #Drawing{
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    height: 600px;
+    width: 800px;
+  }
+  #mobilePage{
+    height: 100%;
+  }
+  #sidePanel{
+    height: 100%;
+  }
+}
+
+@media screen and (max-width: 500px){
+  #playerList{
+    display: none;
+    overflow: hidden;
+  }
+  #mobilePage{
+    height: 480px;
+  }
+  #Drawing{
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    height: 240px;
+    width: 320px;
+  }
+  #inputBar{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 10%;
+  }
+  #canvasDiv{
+    background: red; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, orange , yellow, green, cyan, blue, violet); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, orange, yellow, green, cyan, blue, violet); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, orange, yellow, green, cyan, blue, violet); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, orange , yellow, green, cyan, blue, violet); /* Standard syntax (must be last) */
+  }
+  #infoBar{
+    margin-bottom: 175px;
+  }
+  #sidePanel{
+    height: 180px;
+  }
+  #guessList{
+    height: 180px;
+    border-style: none;
+  }
+  #guesses{
+    height: 180px;
+  }
+  
+}
+
+@media screen and (max-width: 600px) {
+    .topnav a:not(:first-child) {display: none;}
+    .topnav a.icon {
+        float: right;
+        display: block;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .topnav.responsive {position: relative;}
+    .topnav.responsive .icon {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    .topnav.responsive a {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+}
+
+.topnav-right {
+    float: right;
+  }
+
+  .rainbow {
+  
+    /* Font options */
+   text-shadow: 2px 2px 4px #000000;
+   font-size:40px;
+   
+    /* Chrome, Safari, Opera */
+   -webkit-animation: rainbow 5s infinite; 
+   
+   /* Internet Explorer */
+   -ms-animation: rainbow 5s infinite;
+   
+   /* Standar Syntax */
+   animation: rainbow 5s infinite; 
+ }
+ 
+ /* Chrome, Safari, Opera */
+ @-webkit-keyframes rainbow{
+   0%{color: orange;}	
+   10%{color: purple;}	
+     20%{color: red;}
+   30%{color: CadetBlue;}
+     40%{color: yellow;}
+   50%{color: coral;}
+     60%{color: green;}
+   70%{color: cyan;}
+   80%{color: DeepPink;}
+   90%{color: DodgerBlue;}
+     100%{color: orange;}
+ }
+ 
+ /* Internet Explorer */
+ @-ms-keyframes rainbow{
+    0%{color: orange;}	
+   10%{color: purple;}	
+     20%{color: red;}
+   30%{color: CadetBlue;}
+     40%{color: yellow;}
+   50%{color: coral;}
+     60%{color: green;}
+   70%{color: cyan;}
+   80%{color: DeepPink;}
+   90%{color: DodgerBlue;}
+     100%{color: orange;}
+ }
+ 
+ /* Standar Syntax */
+ @keyframes rainbow{
+     0%{color: orange;}	
+   10%{color: purple;}	
+     20%{color: red;}
+   30%{color: CadetBlue;}
+     40%{color: yellow;}
+   50%{color: coral;}
+     60%{color: green;}
+   70%{color: cyan;}
+   80%{color: DeepPink;}
+   90%{color: DodgerBlue;}
+     100%{color: orange;}
+ }

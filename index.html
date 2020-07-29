@@ -1,27 +1,173 @@
 <!DOCTYPE html>
-<html>
-  <head></head>
-  <body>
-    <script src="controller.js"></script>
-    <p> Some text here </p>
-    <canvas class="canvas"></canvas>
+<html lang="en"  style="height: 100%; width: 100%;">
+<head>
+  <title>Pictionairy</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="./js/main.js"></script>
+</head>
+<body  style="height: 100%;" onload="init()">
 
-    <script>
-        let canvas = document.querySelector(".canvas");
-        let ctx = canvas.getContext("2d");
+<div class="topnav" id="myTopnav">
+    <a href="#home" class="active rainbow">PictionAIRy</a>
+    <div id =right>
+        <a style="float: right;" href="" id="loginSignup" data-toggle="modal" data-target="#myModal" >Login/Signup</a>
+        <a href="javascript:void(0);" class="icon" onclick="navBar()">
+            <!-- <i class="fa fa-bars"></i> -->
+        </a>
+    </div>
+</div>
 
-        canvas.setAttribute("width", window.innerWidth);
-        canvas.setAttribute("height", window.innerHeight);
+<div style="margin: 10px; height: 100%;">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="row" style="align-items: center;">
+                <button id='createRoom'type="button" class="btn btn-primary" style="width: 80%; margin: 7% 7% 0% 7%;" disabled onclick="createRoom()">Create Room</button>
+            </div>
+            <div class="input-group" style="width: 80%; margin: 7% 7% 0% 7%;">
+                <input type="text" class="form-control" id="joinRoom" placeholder="Server ID" name="joinRoom" oninput="onJoinRoomText()">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-primary" id="joinRoomBtn" disabled onclick="joinRoom()">Join Room</button>
+                </div>
+            </div>
+            <div class="input-group" style="width: 80%; margin: 7% 7% 0% 7%;">
+                <input type="text" class="form-control" id="connectDevice" placeholder="Server ID" name="connectDevice" oninput="onConnectDeviceText()">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-primary" id="connectDeviceBtn" disabled onclick="connectDevice()">Connect Device</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="panel-group informationTabs" id="accordion" role="tablist" aria-multiselectable="true">
+                <div id="tabUpdate" role="tab">
+                    <h3>
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseUpdate" aria-expanded="true" aria-controls="collapseUpdate" class>Instructions</a>
+                    </h3>
+                </div>
+                <div class="updateInfo collapse in" id="collapseUpdate" role="tabpanel" aria-labelledby="tabUpdate">
+                    Hello and welcome to Pictionary!
+                    <br><br>
+                    Below is all you need to get started:
+                    <br><br>
+                    <b>Checklist:</b>
+                    <ol type="1">
+                        <li>An internet connection. [ Check ;) ]</li>
+                        <li>Two internet connected devices.</li>
+                        <ul>
+                            <li>A viewing device. (Preferably big screen e.g. Laptop) [  ]</li>
+                            <li>A controller device. (Needs to have some sensors e.g. Smartphone) [  ]</li>
+                        </ul>
+                        <li>Some mad drawing skills. [ jk I can't draw either :( ]</li>
+                    </ol>
+                    <br>
+                    <b>Login/Sign-up:</b>
+                    <ol type="1">
+                        <li>Click on the "Login/Signup" button on the top right of the screen.</li>
+                        <li>Click on "Login" if you already have an account.</li>
+                        <li>If you are new, no worries, just click the "Sign-up" button.</li>
+                        <li>Which ever you selected enter all the relevant details.</li>
+                        <li>Click on proceed and now you are ready to join or create a game :D!</li>
+                    </ol>
+                    <br>
+                    <b>To Join an Existing Game:</b>
+                    <ol type="1">
+                        <li>Firstly Login/Sign-up. (See above for details)</li>
+                        <li>Ask your friend/family/lover/<b>drinking partner</b> for the Server ID displaying on their screen (when they have created a room).</li>
+                        <li>Paste the Server ID into the Server ID field next to the "Join Room" button.</li>
+                        <li>Click on "Join Room".</li>
+                        <li>Have fun!</li>
+                    </ol>
+                    <br>
+                    <b>To Join your Controller:</b>
+                    <ol type="1">
+                        <li>Firstly Login/Sign-up. (See above for details)</li>
+                        <li>Ask your friend/family/lover/<b>drinking partner</b> for the Server ID displaying on their screen (when they have created a room).</li>
+                        <li>Paste the Server ID into the Server ID field next to the "Connect Device" button.</li>
+                        <li>Click on "Connect Device".</li>
+                        <li>Good luck!</li>
+                    </ol>
+                    <br>
+                    <b>To Create a Game:</b>
+                    <ol type="1">
+                        <li>Firstly Login/Sign-up. (See above for details)</li>
+                        <li>Click on "Create Room".</li>
+                        <li>It is that easy! xD</li>
+                        <li>(Remember to send the Server ID to your subordinates)</li>
+                    </ol>
+                </div>
+                <div id="tabAbout" role="tab">
+                    <h3>
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseAbout" aria-expanded="false" aria-controls="collapseAbout" class="collapsed">About the Creators</a>
+                    </h3>
+                </div>
+                <div class="updateInfo collapse collapse" id="collapseAbout" role="tabpanel" aria-labelledby="tabAbout" aria-expanded="false" style="height: 0px;">
+                    <h1>Some kids lol.</h1>
+                </div>
+            </div>
+    </div>
+</div>
 
-        window.addEventListener("resize", () => {
-            canvas.setAttribute("width", window.innerWidth);
-            canvas.setAttribute("height", window.innerHeight);
-        });
-
-
-        
-
-    </script>
-
-  </body>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+          <h4 class="modal-title">Login Or Signup</h4>
+        </div>
+        <div class="modal-body">
+            <div style="padding-bottom: 15px;">
+                <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#loginSection" onclick="openLogin()">Login</button>
+                <div id="loginSection" class="collapse">
+                    <div class="input-group" style="padding: 5px;">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                        <input id="emailLogin" type="text" class="form-control" name="username" placeholder="email">
+                    </div>
+                    <div class="input-group" style="padding: 5px;">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input id="passwordLogin" type="password" class="form-control" name="password" placeholder="Password">
+                    </div>
+                    <div class="btn-toolbar" style="padding: 5px;">
+                        <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#loginSection">Cancel</button>
+                        <button class="btn btn-primary" onclick="login()">Proceed</button>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#signupSection" onclick="openSignup()">Signup</button>
+                <div id="signupSection" class="collapse">
+                    <div class="input-group" style="padding: 5px;">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                        <input id="emailSignup" type="text" class="form-control" name="email" placeholder="email">
+                    </div>
+                    <div class="input-group" style="padding: 5px;">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input id="usernameSignup" type="text" class="form-control" name="username" placeholder="username">
+                    </div>
+                    <div class="input-group" style="padding: 5px;">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input id="passwordSignup" type="password" class="form-control" name="password" placeholder="Password">
+                    </div>
+                    <div class="input-group" style="padding: 5px;">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input id="confirmPasswordSignup" type="password" class="form-control" name="password" placeholder="Confirm Password">
+                    </div>
+                    <div class="btn-toolbar" style="padding: 5px;">
+                        <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#signupSection">Cancel</button>
+                        <button class="btn btn-primary" onclick="signup()">Proceed</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+</body>
 </html>

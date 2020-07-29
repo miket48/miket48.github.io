@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%; width: 100%;">
+<head>
+  <title>Pictionairy</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../css/lobby.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>  
+</head>
+<body style="height: 100%;" onload="init()">
+  <div class="topnav" id="myTopnav">
+    <a href="#home" class="active rainbow">PictionAIRy</a>
+    <a style="float: right;" id=""onclick="logout()">Logout</a>
+    <a style="float: right" href='./../index.html' id="leaveGame">Leave Game</a>
+    <a href="javascript:void(0);" class="icon" onclick="navBar()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+  <div id="mobilePage" class='col-sm-9'>
+    <div id="infoBar" class="row" style="height: 10%;">
+      <div id="serverID" class="col-sm-3"><h3>Server Token</h3></div>
+      <div id="divStartButton" class="col-sm-3" style="height: 100%;"><button type="button" onclick="startButtonTemp()" style="height: 100%; width: 100%;">Start Game</button></div>
+      <div id="lobbyRound" class="col-sm-3"><h3>Round</h3></div>
+      <div id="lobbyTimer" class="col-sm-3"><h3>Time Remaining <b id="timer">00</b></h3></div>
+    </div>
+    <div id="canvasDiv" class="row" style="height: 90%; background-color: white;">
+      <canvas id="Drawing">
+      </canvas>
+    </div>
+  </div>
+    <div id="sidePanel" class='col-sm-3'>
+      <div id="playerList" class="row sideBar" style="height: 50%"><textarea id = 'players' disabled>Players:&#13;&#10;</textarea></div>
+      <div id="guessList" class="row sideBar" style="height: 45%"><textarea id = 'guesses' disabled>Your Guesses Are Here:&#13;&#10;</textarea></div>
+      <div class="row" style="height: 5%">
+         <div id="inputBar" class="input-group">
+                <input id="guessSubmit" type="text" class="form-control" placeholder="Press Enter to submit answer" style="height: 100%;">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-primary" style="height: 100%;" onclick="submitGuess()">Submit</button>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./../js/lobby.js"></script>
+</body>
+</html>
