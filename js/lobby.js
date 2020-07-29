@@ -1,4 +1,4 @@
-const apiAddress = "http://vacweekapi.gdza.xyz/";
+const apiAddress = "https://vacweekapi.gdza.xyz/";
 var socket;
 
 let fullPath = [];
