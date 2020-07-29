@@ -1,4 +1,4 @@
-const apiAddress = "http://vacweekapi.gdza.xyz/";
+const apiAddress = "https://vacweekapi.gdza.xyz/";
 
 function init(){
     if(!localStorage.getItem('token')){
