@@ -53,10 +53,12 @@ function init(){
     //  $('.bg-color').css('background-color', colourPen.toRGBA().toString());
     //  document.getElementById("color-button").style.backgroundColor = colourPen+ " !important";
 
-     console.log(colourPen);
+    console.log(colourPen);
    
-
-    disable();
+    choice[0] = "apple";
+    choice[1] = "pear";
+    choice[2] = "fig";
+    // disable();
 }
 
 function initServerConnection() {
@@ -232,7 +234,7 @@ function handleSensor(e){
   dist = angles.map((angle, i) => calcDist(angle, initPos[i]));
   // console.log(dist);
   // array will be made of [x, y, isPen, colour]
-  let penColour = "#cf060a"; 
+  let penColour = colourPen; 
   let data_out = [dist[0], dist[1], pen, penColour, false, false];
   if (isClear){
     data_out[4] = true;
@@ -316,31 +318,3 @@ function flipCalibrate(){
 function undoDraw(){
   isUndo = true;
 }
-
-// const pickr3 = new Pickr({
-//   el: '#color-picker-3',
-//   useAsButton: true,
-//   default: "303030",
-//   components: {
-//     preview: true,
-//     opacity: true,
-//     hue: true,
-
-//     interaction: {
-//       hex: true,
-//       rgba: true,
-//       hsla: true,
-//       hsva: true,
-//       cmyk: true,
-//       input: true,
-//       clear: true,
-//       save: true
-//     }
-//   },
-
-//   onChange(hsva, instance) {
-//     colourPen = hsva.toRGBA().toString();
-//     console.log(hsva.toRGBA().toString());
-//     // $('.bg-color').css('background-color', hsva.toRGBA().toString());
-//   }
-// });

@@ -173,7 +173,7 @@ function submitGuess(){
 
 function receiveData(data_in){
 
-    // let data_out = [dist[0], dist[1], pen, penColour];
+    // let data_out = [dist[0], dist[1], pen, penColour, clear, undo];
     console.log(data_in)
     let dist = [data_in[0], data_in[1]];
     pen = data_in[2];
