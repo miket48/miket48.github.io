@@ -177,7 +177,9 @@ function draw(dist_data){
     {
         fullPath.push( [dist_data[0], dist_data[1], penColor] );
         if (fullPath[0] = -9999){
-            console.log("-9999 in pen")
+            console.log("-9999 in pen");
+        }else{
+            console.log("not breaky time");
         }
     }
     

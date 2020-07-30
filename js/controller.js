@@ -29,7 +29,7 @@ let remainingPathColor = COLOR_CODES.info.color;
 const sensor = new AbsoluteOrientationSensor({frequency: 60});
 sensor.addEventListener("reading", (e) => handleSensor(e));
 let calibrate = true;
-let stopDraw = true;
+let stopDraw = false;
 let pen = false;
 let viewLaser = false;
 let initPos;
@@ -218,16 +218,16 @@ function handleSensor(e){
   }
   
   dist = angles.map((angle, i) => calcDist(angle, initPos[i]));
-  console.log(dist)
+  console.log(dist);
   // array will be made of [x, y, isPen, colour]
   let penColour = "#cf060a"; 
   let data_out = [dist[0], dist[1], pen, penColour];
   if (stopDraw){
     data_out[0] = -9999;
     data_out[1] = -9999;
-    alert("stopped drawing");
     data_out[2] = true;
     stopDraw = false;
+    console.log(data_out);
   }
   //send to_send
   socket.emit("drawdata", data_out);
