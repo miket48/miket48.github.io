@@ -31,16 +31,32 @@ sensor.addEventListener("reading", (e) => handleSensor(e));
 let calibrate = true;
 let stopDraw = false;
 let pen = false;
+let isClear = false;
+let isUndo = false;
 let viewLaser = false;
 let initPos;
 let dist;
 let colourPen;
-
+let chooseTimer = null;
 var socket;
-
 function init(){
     
     initServerConnection();
+     //('#colorpicker').farbtastic('#color'); ;
+     //console.log(  $('#colorpicker').farbtastic('#color'));
+     colourPen = document.getElementById("color").value ;
+
+    
+    //  $('.btn-primary').css('btn-primary', "hover");
+    //  $('.btn-primary').css('btn-primary', "active");
+    //  $('.btn-primary').css('btn-primary', "visited");
+    //  $('.bg-color').css('background-color', colourPen.toRGBA().toString());
+    //  document.getElementById("color-button").style.backgroundColor = colourPen+ " !important";
+
+     console.log(colourPen);
+   
+
+    disable();
 }
 
 function initServerConnection() {
@@ -51,7 +67,6 @@ function initServerConnection() {
     var room_id = localStorage.getItem('roomId');
     jg(room_id);
 
-
     //Callback functions for socket communication
     socket.on("wordoptions", function(data) {
         console.log(data);
@@ -61,10 +76,11 @@ function initServerConnection() {
     socket.on("gamestate", function(data) {
         console.log(data);
 
-        if ((data.currentPlayer != null || data.currentPlayer != undefined) && data.currentPlayer.playerUID === localStorage.getItem("userId")) {
+        if (!data.isWordSet && (data.currentPlayer != null || data.currentPlayer != undefined) && data.currentPlayer.playerUID === localStorage.getItem("userId")) {
             console.log("IT IS MY TURN");
-
+            enable();
             socket.emit("getwordoptions");
+            //startFullRound(["myword1", "myword2", "myword3"]);
         }
     });
 }
@@ -90,12 +106,9 @@ function startTimer() {
     setCircleDasharray();
     setRemainingPathColor(timeLeft);
 
-    if (timeLeft <= 1) {
-      clearInterval(timerInterval);
-    }
-
     if (timeLeft <= 0) {
-        onTimesUp();
+      clearInterval(timerInterval);
+      onTimesUp();
     }
   }, 1000);
 }
@@ -173,16 +186,15 @@ function navBar() {
   }
 }
 
-function choseOption(id, timer){
-  clearInterval(timer);
+function choseOption(id){
+  clearInterval(chooseTimer);
   document.getElementById('chosenWord').innerHTML = document.getElementById(id).innerHTML;
-  if(id === 'choice-1'){
-  
-  }else if(id === 'choice-2'){
 
-  }else{
+  var chosenWord = document.getElementById('chosenWord').innerHTML;
+  alert("chosenword: " + chosenWord);
 
-  }
+  socket.emit("makechoice", {"choice":chosenWord});
+
   closeChoose();
   startDrawing();
 }
@@ -221,7 +233,15 @@ function handleSensor(e){
   // console.log(dist);
   // array will be made of [x, y, isPen, colour]
   let penColour = "#cf060a"; 
-  let data_out = [dist[0], dist[1], pen, penColour];
+  let data_out = [dist[0], dist[1], pen, penColour, false, false];
+  if (isClear){
+    data_out[4] = true;
+    isClear = false;
+  }
+  else if (isUndo){
+    data_out[5] = true;
+    isUndo = false;
+  }
   if (stopDraw){
     data_out[0] = -9999;
     data_out[1] = -9999;
@@ -266,58 +286,61 @@ function startChosing(choice){
   document.getElementById('choice-2').innerHTML = choice[1];
   document.getElementById('choice-3').innerHTML = choice[2];
   var choosingTime = 10;
-  var chooseTimer = setInterval(function(){
+  chooseTimer = setInterval(function(){
     choosingTime--;
     document.getElementById('chooseTimer').innerHTML =choosingTime;
     if(choosingTime==0){
       var random = Math.floor(Math.random() * 3)+1;
       if(random == '1'){
-        choseOption("choice-1", chooseTimer);
+        choseOption("choice-1");
       }else if(random == '2'){
-        choseOption("choice-2", chooseTimer);
+        choseOption("choice-2");
       }else{
-        choseOption("choice-3", chooseTimer);
+        choseOption("choice-3");
       }
     }
     
   },1000);
 }
-function sendOption(){
-  //use this function to send data to server
-}
 
-
+//The clear button
 function canvasClear(){
-
+  isClear = true;
 }
 
 function flipCalibrate(){
   calibrate = true;
 }
 
-const pickr3 = new Pickr({
-  el: '#color-picker-3',
-  useAsButton: true,
-  default: "303030",
-  components: {
-    preview: true,
-    opacity: true,
-    hue: true,
 
-    interaction: {
-      hex: true,
-      rgba: true,
-      hsla: true,
-      hsva: true,
-      cmyk: true,
-      input: true,
-      clear: true,
-      save: true
-    }
-  },
+function undoDraw(){
+  isUndo = true;
+}
 
-  onChange(hsva, instance) {
-    colourPen = hsva.toRGBA().toString();
-    // $('.bg-color').css('background-color', hsva.toRGBA().toString());
-  }
-});
+// const pickr3 = new Pickr({
+//   el: '#color-picker-3',
+//   useAsButton: true,
+//   default: "303030",
+//   components: {
+//     preview: true,
+//     opacity: true,
+//     hue: true,
+
+//     interaction: {
+//       hex: true,
+//       rgba: true,
+//       hsla: true,
+//       hsva: true,
+//       cmyk: true,
+//       input: true,
+//       clear: true,
+//       save: true
+//     }
+//   },
+
+//   onChange(hsva, instance) {
+//     colourPen = hsva.toRGBA().toString();
+//     console.log(hsva.toRGBA().toString());
+//     // $('.bg-color').css('background-color', hsva.toRGBA().toString());
+//   }
+// });

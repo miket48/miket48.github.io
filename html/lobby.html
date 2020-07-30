@@ -37,9 +37,9 @@
       <div id="guessList" class="row sideBar" style="height: 45%"><textarea id = 'guesses' disabled>Your Guesses Are Here:&#13;&#10;</textarea></div>
       <div class="row" style="height: 5%">
          <div id="inputBar" class="input-group">
-                <input id="guessSubmit" type="text" class="form-control" placeholder="Press Enter to submit answer" style="height: 100%;">
+                <input id="guessSubmit" type="text" class="form-control" placeholder="Press Enter to submit answer" style="height: 100%;" disabled>
                 <div class="input-group-btn">
-                    <button type="button" class="btn btn-primary" style="height: 100%;" onclick="submitGuess()">Submit</button>
+                    <button id="guessSubmitBtn" type="button" class="btn btn-primary" style="height: 100%;" onclick="submitGuess()" disabled>Submit</button>
                 </div>
             </div>
         </div>

@@ -51,14 +51,15 @@ function initServerConnection() {
 
     //Callback functions for socket communication
     
-    list = [];
+    var list = [];
+    var prevTime = null;
     
     //Callback for when the gamestate changes
     socket.on("gamestate", function(data) {
         console.log(data);
 
         //setting the room id
-        document.getElementById("serverID").innerHTML = '<h3>'+ data.gameId +'</h3>';
+        document.getElementById("serverID").innerHTML = '<h3>Server ID: '+ data.gameId +'</h3>';
 
         //setting the list of players
         clearPlayers();
@@ -70,9 +71,29 @@ function initServerConnection() {
                 document.getElementById("players").innerHTML += data.players[i].playerUID+ ' - ' + data.players[i].points + '&#13;&#10;';
             }
         }
-        if(list[list.length-1] !==  data.lastGuess.playerUID + ": " + data.lastGuess.guessMade){
+        if(list[list.length-1] !== (data.lastGuess.playerUID + ": " + data.lastGuess.guessMade) && data.lastGuess.playerUID != ''){
             document.getElementById("guesses").innerHTML += data.lastGuess.playerUID + ": " + data.lastGuess.guessMade + '&#13;&#10;';
             list.push(data.lastGuess.playerUID + ": " + data.lastGuess.guessMade);
+        }
+
+        if (data.turnStartTime != prevTime) {
+            //Start new timer
+            prevTime = data.turnStartTime;
+            startTimer()
+        }
+
+        if ((data.currentPlayer != null || data.currentPlayer != undefined) && data.currentPlayer.playerUID === localStorage.getItem("userId")) {
+            document.getElementById('guessSubmit').disabled = true;
+            document.getElementById('guessSubmitBtn').disabled = true;
+        }else {
+            document.getElementById('guessSubmit').disabled = false;
+            document.getElementById('guessSubmitBtn').disabled = false;
+        }
+
+        if (data.roundNumber == 0) {
+            document.getElementById("lobbyRound").innerHTML = "<h3>Not started</h3>";
+        } else {
+            document.getElementById("lobbyRound").innerHTML = "<h3>Round: "+data.roundNumber+"</h3>";
         }
     });
 
@@ -84,6 +105,21 @@ function initServerConnection() {
     socket.on("error", function(err) {
         console.log("Error from server: " + err);
     });
+}
+
+function startTimer(){
+    let timeLeft = 60
+    let roundTimer = setInterval(() => {
+        timeLeft--;
+
+        if(timeLeft <= 0){
+            clearInterval(roundTimer);
+            document.getElementById('guessSubmit').disabled = true;
+            document.getElementById('guessSubmitBtn').disabled = true;
+        }
+        updateTimer(timeLeft);
+        
+    }, 1000);
 }
 
 function startGame() {
@@ -119,16 +155,19 @@ function navBar() {
     }
   }
 function submitGuess(){
+    console.log('here')
     var guess = document.getElementById("guessSubmit");
     guess.value = guess.value.trim();
-    if(guess.value !== ''){
-        document.getElementById('guesses').innerHTML += '&#13;&#10;'+guess.value;
+    
+    if(guess.value == ''){
+        guess.value = '';
+        return;
     }
-    guess.value = '';
-
+    
     var guess_answer = guess.value.trim();
 
-    socket.emit("guess", {guess_answer});
+    socket.emit("guess", {"guess":guess_answer});
+    alert("sent guess: " + guess_answer);
 }
 
 
@@ -139,9 +178,14 @@ function receiveData(data_in){
     let dist = [data_in[0], data_in[1]];
     pen = data_in[2];
     penColor = data_in[3];
-    // if (dist[0] = -9999){
-    //     console.log("-9999 received")
-    // }
+    if (data_in[4]){
+        console.log("clearing canvas");
+        eraseCanvas();
+    }
+    else if (data_in[5]){
+        console.log("undoing last stroke");
+        undoLastStroke();
+    }
 
     if(pen == true){
         draw(dist);

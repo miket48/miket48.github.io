@@ -10,6 +10,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <script type="text/javascript" src="../js/farbtastic/farbtastic.js"></script>
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="../js/farbtastic/farbtastic.css" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <script>
       let fullPath = [];
       function mouseDown() {
@@ -36,17 +40,18 @@
 </head>
 
 <body onload="init()">
-    
+  <div class="container"> 
   <div class="topnav" id="myTopnav">
     <a href="#home" class="active rainbow">PictionAIRy</a>
     <a style="float: right;" id=""onclick="logout()">Logout</a>
-    <a style="float: right" href='./../index.html' id="leaveGame">Leave Game</a>
+    <a style="float: right" href='./../index.html' id="leaveGame">Leave</a>
+    <a style="float: right"  id="cal" onclick="flipCalibrate()">Calibrate</a>
     <a href="javascript:void(0);" class="icon" onclick="navBar()">
       <i class="fa fa-bars"></i>
     </a>
   </div>
-    <div class='page-header'>
-        <div class="row" style="height:5%; text-align: center;">
+    <div class='page-header' style="margin:0px;padding:5px;">
+        <div class="row" style="height:5%; text-align:center;">
             <h1 id='chosenWord'>Place word here</h1>
         </div>
     </div>
@@ -73,13 +78,16 @@
           </div>
         </div>
     </div>
+
+  </div>
+    <!-- <div class="card bg-color">
     <br>
     <button type="button" class="btn btn-primary drawControlButton" ontouchstart="mouseDown()" ontouchend="mouseUp()" id='drawButton'>Draw</button>
     <div id="create" class="collapse">
         <!-- BLANK -->
     </div>
     <br />
-    <button type="button" class="btn btn-primary drawControlButton" onclick="startFullRound()">Clear</button>
+    <button type="button" class="btn btn-primary drawControlButton" onclick="canvasClear()">Clear</button>
     <div id="create" class="collapse">
         <!-- BLANK -->
     </div>
@@ -87,25 +95,96 @@
       <div class="card-body text-center d-flex justify-content-center align-items-center flex-column">
         <button id="color-picker-3" class="btn btn-outline-primary btn-sm">Colour Picker</button>
       </div>
-    </div>
-    <button type="button" class="btn btn-primary drawControlButton" onclick="flipCalibrate()">Calibrate</button>
-    <div id="create" class="collapse">
-        <!-- BLANK -->
-    </div>
+    </div> -->
+  
+
 
     <!-- Overlay for chosing words and disabling -->
-    <div id="disableOverlay">
-      <div id="disabled">Drawing Disabled!</div>
-    </div>
+    
+<div class="container" style="margin-top:10px;">
+<div class="row">
+  <div class="col-6">
+    <button id="color-button" type="button" class="btn btn-primary drawControlButton" data-toggle="modal" data-target="#exampleModalCenter">
+      <i class="fa fa-paint-brush fa-2x" aria-hidden="true"><b>&nbsp; Colour</b></i> 
+    </button>
+  </div>
+  <div class="col-6 com-md-12">
+    <button type="button" class="btn btn-primary drawControlButton" ontouchstart="mouseDown()" ontouchend="mouseUp()" id='drawButton'>
+      <i class="fa fa-pencil-alt fa-2x "><b>&nbsp; Draw</b></i>
+    </button>
+  </div>
+  <div class="col-6 com-md-12">
+    <button type="button" class="btn btn-primary drawControlButton" onclick="undoDraw()">
+      <i class="fa fa-undo-alt fa-2x"><b>&nbsp; Undo</b></i>
+    </button>
+  </div>
+  <div class="col-6">
+    <button type="button" class="btn btn-primary drawControlButton" onclick="startFullRound()">
+      <i class="fa fa-trash fa-2x"><b>&nbsp; Clear</b></i>
+    </button>
+    <!-- <div id="create" class="collapse">
+    </div> -->
+  </div>
+</div>
+<!-- <div class="row">
+  <div class="col-6 com-md-12">
+    <button type="button" class="btn btn-primary drawControlButton" onclick="undoDraw()">
+      <i class="fa fa-undo-alt fa-2x"><b>&nbsp; Undo</b></i>
+    </button>
+  </div> -->
+  <!-- <div class="col-6">
+    <button type="button" class="btn btn-primary drawControlButton" onclick="flipCalibrate()">
+      <i class="fa fa-bullseye fa-2x"><b>&nbsp; Calibrate</b></i>
+    </button>
+  </div> -->
 
-    <div id="chooseOverlay" >
-        <div style="position:absolute; color:white; left: 50%; top: 20%;"><h2 id="chooseTimer">10</h2></div>
-        <div class="col-sm-4" style="position:absolute; left: 42%; top: 40%;"> <button id='choice-1' type="button" class="btn btn-primary" onclick="choseOption(id)">Choice 1</button></div>
-        <div class="col-sm-4" style="position:absolute; left: 42%; top: 50%;"> <button id='choice-2' type="button" class="btn btn-primary" onclick="choseOption(id)">Choice 2</button></div>
-        <div class="col-sm-4" style="position:absolute; left: 42%; top: 60%;"> <button id='choice-3' type="button" class="btn btn-primary" onclick="choseOption(id)">Choice 3</button></div>
-    </div>
+</div>
 
-   
+</div>
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Pick a Colour</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding-left:25%;">
+        <form><input type="hidden" id="color" name="color" value="#123456" /></form>
+          <div id="colorpicker"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="disableOverlay">
+  <div id="disabled">Drawing Disabled!</div>
+</div>
+  
+  <div id="chooseOverlay" >
+    <div style="position:absolute; color:white; left: 50%; top: 20%;"><h2 id="chooseTimer">10</h2></div>
+    <div class="col-sm-4" style="position:absolute; left: 42%; top: 40%;"> <button id='choice-1' type="button" class="btn btn-primary" onclick="choseOption(id)">Choice 1</button></div>
+    <div class="col-sm-4" style="position:absolute; left: 42%; top: 50%;"> <button id='choice-2' type="button" class="btn btn-primary" onclick="choseOption(id)">Choice 2</button></div>
+    <div class="col-sm-4" style="position:absolute; left: 42%; top: 60%;"> <button id='choice-3' type="button" class="btn btn-primary" onclick="choseOption(id)">Choice 3</button></div>
+</div>
+
+    <script type="text/javascript">
+
+      $(document).ready(function() {
+    
+        $('#colorpicker').farbtastic('#color');
+      });
+    
+    </script>
+   <!-- </div> -->
 </body>
 
 </html>

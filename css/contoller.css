@@ -1,3 +1,8 @@
+body{
+background-image : url("../images/painting.png");
+
+}
+
 .btn-xl {
   padding: 40px 40px;
   font-size: 40px;
@@ -98,8 +103,8 @@
 
 .drawControlButton {
     width: 80%;
-    padding-top: 10%;
-    padding-bottom: 10%;
+    padding-top: 6%;
+    padding-bottom: 5%;
     margin-left: 10%;
     margin-bottom: 1%;
 }

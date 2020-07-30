@@ -39,7 +39,8 @@ function onJoinRoomText() {
 
 function onConnectDeviceText() {
     var text = $("#connectDevice").val();
-    $("#connectDeviceBtn").attr("disabled", (text === ""));
+    if(localStorage.getItem('token'))
+        $("#connectDeviceBtn").attr("disabled", (text === ""));
 }
 
 function navBar() {
@@ -108,6 +109,14 @@ function loginCallback(data) {
 
     localStorage.setItem('token', token);
     document.getElementById('createRoom').disabled = false;
+
+    if(document.getElementById('joinRoom').value.trim() != ''){
+        document.getElementById('joinRoomBtn').disabled = false;
+    }
+    if(document.getElementById('connectDevice').value.trim() != ''){
+        document.getElementById('connectDeviceBtn').disabled = false;
+    }
+
     $('#myModal').modal('hide');
     replaceLogin();
 }
