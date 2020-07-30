@@ -218,7 +218,7 @@ function handleSensor(e){
   }
   
   dist = angles.map((angle, i) => calcDist(angle, initPos[i]));
-  console.log(dist);
+  // console.log(dist);
   // array will be made of [x, y, isPen, colour]
   let penColour = "#cf060a"; 
   let data_out = [dist[0], dist[1], pen, penColour];
@@ -227,8 +227,9 @@ function handleSensor(e){
     data_out[1] = -9999;
     data_out[2] = true;
     stopDraw = false;
-    console.log(data_out);
+    
   }
+  console.log(data_out);
   //send to_send
   socket.emit("drawdata", data_out);
 }
