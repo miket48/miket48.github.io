@@ -53,6 +53,7 @@ function init(){
     //  $('.bg-color').css('background-color', colourPen.toRGBA().toString());
     //  document.getElementById("color-button").style.backgroundColor = colourPen+ " !important";
 
+    sensor.start();
     console.log(colourPen);
    
     
