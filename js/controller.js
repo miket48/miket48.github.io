@@ -55,6 +55,7 @@ function init(){
 
     console.log(colourPen);
    
+    startFullRound();
     choice[0] = "apple";
     choice[1] = "pear";
     choice[2] = "fig";
