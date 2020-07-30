@@ -135,12 +135,13 @@ function submitGuess(){
 function receiveData(data_in){
 
     // let data_out = [dist[0], dist[1], pen, penColour];
+    console.log(data_in)
     let dist = [data_in[0], data_in[1]];
     pen = data_in[2];
     penColor = data_in[3];
-    if (dist[0] = -9999){
-        console.log("-9999 received")
-    }
+    // if (dist[0] = -9999){
+    //     console.log("-9999 received")
+    // }
 
     if(pen == true){
         draw(dist);
@@ -176,11 +177,11 @@ function draw(dist_data){
     if(pen)
     {
         fullPath.push( [dist_data[0], dist_data[1], penColor] );
-        if (fullPath[0] = -9999){
-            console.log("-9999 in pen");
-        }else{
-            console.log("not breaky time");
-        }
+        // if (fullPath[0] = -9999){
+        //     console.log("-9999 in pen");
+        // }else{
+        //     console.log("not breaky time");
+        // }
     }
     
     // console.log(pen);
