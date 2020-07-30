@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
   <script src="./js/main.js"></script>
 </head>
 <body  style="height: 100%;" onload="init()">
@@ -26,30 +27,35 @@
 <div style="margin: 10px; height: 100%;">
     <div class="row">
         <div class="col-sm-8">
-            <div class="row" style="align-items: center;">
-                <button id='createRoom'type="button" class="btn btn-primary" style="width: 80%; margin: 7% 7% 0% 7%;" disabled onclick="createRoom()">Create Room</button>
-            </div>
-            <div class="input-group" style="width: 80%; margin: 7% 7% 0% 7%;">
-                <input type="text" class="form-control" id="joinRoom" placeholder="Server ID" name="joinRoom" oninput="onJoinRoomText()">
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-primary" id="joinRoomBtn" disabled onclick="joinRoom()">Join Room</button>
+            <div id="left-panel" >
+                <div class="row" style="align-items: center;">
+                    <button id='createRoom'type="button" class="btn btn-primary" style="width: 80%; margin: 7% 7% 0% 7%;opacity:1;font-family: 'Indie Flower', cursive;font-size: 40px;" disabled onclick="createRoom()">Create Room</button>
                 </div>
-            </div>
-            <div class="input-group" style="width: 80%; margin: 7% 7% 0% 7%;">
-                <input type="text" class="form-control" id="connectDevice" placeholder="Server ID" name="connectDevice" oninput="onConnectDeviceText()">
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-primary" id="connectDeviceBtn" disabled onclick="connectDevice()">Connect Device</button>
+                <div class="input-group" style="width: 80%; margin: 7% 7% 0% 7%;opacity:1;">
+                    <input type="text" class="form-control" style="font-family:'Indie Flower', cursive;font-size: 30px;height:100%;" id="joinRoom" placeholder="Server ID" name="joinRoom" oninput="onJoinRoomText()">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-primary" id="joinRoomBtn" style="font-family:'Indie Flower', cursive;font-size: 30px;" disabled onclick="joinRoom()">Join Room</button>
+                    </div>
+                </div>
+                <div class="input-group" style="width: 80%; margin: 7% 7% 0% 7%;opacity:1;">
+                    <input type="text" class="form-control" style="font-family:'Indie Flower', cursive;font-size: 30px;height:100%;" id="connectDevice" placeholder="Server ID" name="connectDevice" oninput="onConnectDeviceText()">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-primary" id="connectDeviceBtn" disabled onclick="connectDevice()" style="font-family:'Indie Flower', cursive;font-size: 30px;">Connect Device</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4" style="background-color: #9ebae8; border-radius: 5px;font-family: 'Indie Flower', cursive;font-size: 15px;">
             <div class="panel-group informationTabs" id="accordion" role="tablist" aria-multiselectable="true">
                 <div id="tabUpdate" role="tab">
                     <h3>
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseUpdate" aria-expanded="true" aria-controls="collapseUpdate" class>Instructions</a>
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseUpdate" aria-expanded="false" aria-controls="collapseUpdate" class="collapsed">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            &nbsp; <b>Instructions</b>
+                        </a>
                     </h3>
                 </div>
-                <div class="updateInfo collapse in" id="collapseUpdate" role="tabpanel" aria-labelledby="tabUpdate">
+                <div class="updateInfo collapse collapse" id="collapseUpdate" role="tabpanel" aria-labelledby="tabUpdate">
                     Hello and welcome to Pictionary!
                     <br><br>
                     Below is all you need to get started:
@@ -102,7 +108,10 @@
                 </div>
                 <div id="tabAbout" role="tab">
                     <h3>
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseAbout" aria-expanded="false" aria-controls="collapseAbout" class="collapsed">About the Creators</a>
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseAbout" aria-expanded="false" aria-controls="collapseAbout" class="collapsed">
+                            <i class="fa fa-users" aria-hidden="true"></i>
+                            &nbsp; <b>About the Creators</b>
+                        </a>
                     </h3>
                 </div>
                 <div class="updateInfo collapse collapse" id="collapseAbout" role="tabpanel" aria-labelledby="tabAbout" aria-expanded="false" style="height: 0px;">

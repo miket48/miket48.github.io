@@ -6,7 +6,7 @@ let pen;
 let penColor = "#cf060a"; 
 let canvas = document.getElementById("Drawing");
 let ctx = canvas.getContext("2d");
-
+let roundTimer = null;
 function init(){
     
     ctx.fillStyle = "white";
@@ -21,11 +21,7 @@ function init(){
         if (event.keyCode === 13) {
             // Cancel the default action, if needed
             event.preventDefault();
-            guess.value = guess.value.trim();
-            if(guess.value !== ''){
-                document.getElementById('guesses').innerHTML += '&#13;&#10;'+guess.value;
-            }
-            guess.value = '';
+            submitGuess();
         }
     });
 }
@@ -53,7 +49,8 @@ function initServerConnection() {
     
     var list = [];
     var prevTime = null;
-    
+    var prevActivePlayer = null;
+
     //Callback for when the gamestate changes
     socket.on("gamestate", function(data) {
         console.log(data);
@@ -63,23 +60,36 @@ function initServerConnection() {
 
         //setting the list of players
         clearPlayers();
-
+        
         for(i = 0; i < data.players.length; i++) {
-            if(data.players[i].active){
-                document.getElementById("players").innerHTML += data.players[i].playerUID+ ' - ' + data.players[i].points + ' (active)' + '&#13;&#10;';
-            }else{
-                document.getElementById("players").innerHTML += data.players[i].playerUID+ ' - ' + data.players[i].points + '&#13;&#10;';
+            var controller =' (*)';
+            if(data.players[i].controller!='') {
+                controller = ' (Ready)'
             }
-        }
-        if(list[list.length-1] !== (data.lastGuess.playerUID + ": " + data.lastGuess.guessMade) && data.lastGuess.playerUID != ''){
-            document.getElementById("guesses").innerHTML += data.lastGuess.playerUID + ": " + data.lastGuess.guessMade + '&#13;&#10;';
-            list.push(data.lastGuess.playerUID + ": " + data.lastGuess.guessMade);
+
+            if (data.gameStarted) {
+                controller = '';
+                document.getElementById('startgame').disabled = true;
+            }
+                
+            if((data.currentPlayer != null || data.currentPlayer != undefined) && data.currentPlayer.playerUID === data.players[i].playerUID){
+                document.getElementById("players").innerHTML += data.players[i].playerUID+' - ' + data.players[i].points + controller + ' (active)' + '&#13;&#10;';
+            }else{
+                document.getElementById("players").innerHTML += data.players[i].playerUID+ ' - ' + data.players[i].points + controller + '&#13;&#10;';
+            }
         }
 
         if (data.turnStartTime != prevTime) {
             //Start new timer
             prevTime = data.turnStartTime;
-            startTimer()
+            startTimer();
+
+            document.getElementById("guesses").innerHTML += "&#13;&#10;====ROUND " + data.roundNumber + " (" + data.currentPlayer.playerUID + ")====&#13;&#10;";
+        }
+
+        if(list[list.length-1] !== (data.lastGuess.playerUID + ": " + data.lastGuess.guessMade) && data.lastGuess.playerUID != ''){
+            document.getElementById("guesses").innerHTML += data.lastGuess.playerUID + ": " + data.lastGuess.guessMade + (data.lastGuess.correct? " (correct)": "") + '&#13;&#10;';
+            list.push(data.lastGuess.playerUID + ": " + data.lastGuess.guessMade);
         }
 
         if ((data.currentPlayer != null || data.currentPlayer != undefined) && data.currentPlayer.playerUID === localStorage.getItem("userId")) {
@@ -88,6 +98,20 @@ function initServerConnection() {
         }else {
             document.getElementById('guessSubmit').disabled = false;
             document.getElementById('guessSubmitBtn').disabled = false;
+        }
+
+        if ((data.currentPlayer != null || data.currentPlayer != undefined) && data.currentPlayer.playerUID !== prevActivePlayer) {
+            clearUI();
+            prevActivePlayer = data.currentPlayer.playerUID;
+        }
+
+        if (data.gameEnded) {
+            document.getElementById('startgame').disabled = false;
+            clearInterval(roundTimer);
+            document.getElementById('guessSubmit').disabled = true;
+            document.getElementById('guessSubmitBtn').disabled = true;
+
+            document.getElementById("guesses").innerHTML = "YOUR GAME HAS ENDED CLICK ON START GAME TO START AGAIN.";
         }
 
         if (data.roundNumber == 0) {
@@ -107,9 +131,17 @@ function initServerConnection() {
     });
 }
 
+//Used to clear the UI when a new turn is started
+function clearUI() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    fullPath = [];
+    clearInterval(roundTimer);
+    updateTimer(0);
+}
+
 function startTimer(){
     let timeLeft = 60
-    let roundTimer = setInterval(() => {
+    roundTimer = setInterval(() => {
         timeLeft--;
 
         if(timeLeft <= 0){
@@ -122,9 +154,10 @@ function startTimer(){
     }, 1000);
 }
 
-function startGame() {
+function startGame() {    
+    clearUI();
+    clearPlayers();
     socket.emit("startnewround");
-    alert("starting round");
 }
 
 function ng() {
@@ -155,19 +188,17 @@ function navBar() {
     }
   }
 function submitGuess(){
-    console.log('here')
     var guess = document.getElementById("guessSubmit");
     guess.value = guess.value.trim();
-    
+    var guess_answer = guess.value;
+
     if(guess.value == ''){
-        guess.value = '';
         return;
     }
+    guess.value = '';
     
-    var guess_answer = guess.value.trim();
 
     socket.emit("guess", {"guess":guess_answer});
-    alert("sent guess: " + guess_answer);
 }
 
 
@@ -233,7 +264,7 @@ function draw(dist_data){
     
     //Clear Canvas and Set Pen Size
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1.5;
     
     //Flag for start new Path  ( Pen Lift Indicator -> [-9999, -9999] )
     let breakPath = false;

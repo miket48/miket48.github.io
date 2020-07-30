@@ -11,6 +11,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
     <script type="text/javascript" src="../js/farbtastic/farbtastic.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="../js/farbtastic/farbtastic.css" type="text/css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
@@ -52,7 +53,7 @@
   </div>
     <div class='page-header' style="margin:0px;padding:5px;">
         <div class="row" style="height:5%; text-align:center;">
-            <h1 id='chosenWord'>Place word here</h1>
+            <h1 id='chosenWord' style="color: white; text-shadow: 2px 2px #313233;font-family:'Indie Flower', cursive;font-size: 40px;">Place word here</h1>
         </div>
     </div>
     <div class="row">
@@ -102,23 +103,23 @@
 <div class="container" style="margin-top:10px;">
 <div class="row">
   <div class="col-6">
-    <button id="color-button" type="button" class="btn btn-primary drawControlButton" data-toggle="modal" data-target="#exampleModalCenter">
-      <i class="fa fa-paint-brush fa-2x" aria-hidden="true"><b>&nbsp; Colour</b></i> 
+    <button id="color-button" type="button" class="btn btn-primary drawControlButton"  data-toggle="modal" data-target="#exampleModalCenter">
+      <i class="fa fa-paint-brush fa-2x" aria-hidden="true"></i> <b style="font-family:'Indie Flower', cursive;font-size: 25px;">&nbsp; Colour</b>
     </button>
   </div>
   <div class="col-6 com-md-12">
     <button type="button" class="btn btn-primary drawControlButton" ontouchstart="mouseDown()" ontouchend="mouseUp()" id='drawButton'>
-      <i class="fa fa-pencil-alt fa-2x "><b>&nbsp; Draw</b></i>
+      <i class="fa fa-pencil-alt fa-2x "></i><b style="font-family:'Indie Flower', cursive;font-size: 25px;">&nbsp; Draw</b>
     </button>
   </div>
   <div class="col-6 com-md-12">
     <button type="button" class="btn btn-primary drawControlButton" onclick="undoDraw()">
-      <i class="fa fa-undo-alt fa-2x"><b>&nbsp; Undo</b></i>
+      <i class="fa fa-undo-alt fa-2x"></i><b style="font-family:'Indie Flower', cursive;font-size: 25px;">&nbsp; Undo</b>
     </button>
   </div>
   <div class="col-6">
-    <button type="button" class="btn btn-primary drawControlButton" onclick="startFullRound()">
-      <i class="fa fa-trash fa-2x"><b>&nbsp; Clear</b></i>
+    <button type="button" class="btn btn-primary drawControlButton" onclick="canvasClear()">
+      <i class="fa fa-trash fa-2x"></i><b style="font-family:'Indie Flower', cursive;font-size: 25px;">&nbsp; Clear</b>
     </button>
     <!-- <div id="create" class="collapse">
     </div> -->
