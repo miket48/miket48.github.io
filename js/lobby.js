@@ -2,6 +2,7 @@ const apiAddress = "https://vacweekapi.gdza.xyz/";
 var socket;
 
 let fullPath = [];
+let pen;
 let penColor = "#cf060a"; 
 let canvas = document.getElementById("Drawing");
 let ctx = canvas.getContext("2d");
@@ -41,13 +42,17 @@ function initServerConnection() {
 
     } else { //Is not the host
         var room_id = localStorage.getItem('roomId');
-
+        document.getElementById('startgame').disabled = true;
         jg(room_id);
     }
 
 
-    //Callback functions for socket communication
+    clearGuesses();
 
+    //Callback functions for socket communication
+    
+    list = [];
+    
     //Callback for when the gamestate changes
     socket.on("gamestate", function(data) {
         console.log(data);
@@ -59,15 +64,31 @@ function initServerConnection() {
         clearPlayers();
 
         for(i = 0; i < data.players.length; i++) {
-            document.getElementById("players").innerHTML += data.players[i].playerUID + '&#13;&#10;';
+            if(data.players[i].active){
+                document.getElementById("players").innerHTML += data.players[i].playerUID+ ' - ' + data.players[i].points + ' (active)' + '&#13;&#10;';
+            }else{
+                document.getElementById("players").innerHTML += data.players[i].playerUID+ ' - ' + data.players[i].points + '&#13;&#10;';
+            }
         }
-
+        if(list[list.length-1] !==  data.lastGuess.playerUID + ": " + data.lastGuess.guessMade){
+            document.getElementById("guesses").innerHTML += data.lastGuess.playerUID + ": " + data.lastGuess.guessMade + '&#13;&#10;';
+            list.push(data.lastGuess.playerUID + ": " + data.lastGuess.guessMade);
+        }
     });
 
     //Callback for when there is drawdata
     socket.on("drawdata", function(data) {
         receiveData(data);
     });
+
+    socket.on("error", function(err) {
+        console.log("Error from server: " + err);
+    });
+}
+
+function startGame() {
+    socket.emit("startnewround");
+    alert("starting round");
 }
 
 function ng() {
@@ -75,11 +96,11 @@ function ng() {
   }
   
 function jg(gameid) {
-  socket.emit('joingame', {gameid});
+  socket.emit('joingame', {gameid:gameid, devicetype:"client"});
 }
 
 function clearGuesses(){
-    document.getElementById("guesses").innerHTML = 'Your Guesses Are Here:&#13;&#10;';
+    document.getElementById("guesses").innerHTML = 'Guesses Are Here:&#13;&#10;';
 }
 
 function clearPlayers(){
@@ -105,16 +126,17 @@ function submitGuess(){
     }
     guess.value = '';
 
-    var canvas = document.getElementById("Drawing");
-    alert(canvas.width+' '+canvas.height)
+    var guess_answer = guess.value.trim();
+
+    socket.emit("guess", {guess_answer});
 }
 
 
 function receiveData(data_in){
-    
+
     // let data_out = [dist[0], dist[1], pen, penColour];
     let dist = [data_in[0], data_in[1]];
-    let pen = data_in[2];
+    pen = data_in[2];
     penColor = data_in[3];
 
     if(pen == true){
@@ -126,8 +148,6 @@ function receiveData(data_in){
 
 
 function laser(dist_data){
-  
-    console.log(dist_data);
 
     if(fullPath.length != 0)
     {
@@ -144,9 +164,7 @@ function laser(dist_data){
     ctx.fillStyle = penColor;
     ctx.fill();
     ctx.closePath(); 
-    
-    
-     
+
   }
   
 function draw(dist_data){
@@ -157,10 +175,12 @@ function draw(dist_data){
       fullPath.push( [dist_data[0], dist_data[1], penColor] );
     }
     
+    console.log(pen);
+    console.log(fullPath);
     
     //Clear Canvas and Set Pen Size
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.lineWidth = 7;
+    ctx.lineWidth = 2;
     
     //Flag for start new Path  ( Pen Lift Indicator -> [-9999, -9999] )
     let breakPath = false;
@@ -211,8 +231,6 @@ function draw(dist_data){
        ctx.stroke();
        ctx.closePath(); 
     }
-   
-   
 }
 
 function undoLastStroke(){

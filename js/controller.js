@@ -23,12 +23,13 @@ const COLOR_CODES = {
 const TIME_LIMIT = 60;
 let timePassed = 0;
 let timeLeft = TIME_LIMIT;
-let timerInterval = null;
+//let timerInterval = null;
 let remainingPathColor = COLOR_CODES.info.color;
 
 const sensor = new AbsoluteOrientationSensor({frequency: 60});
 sensor.addEventListener("reading", (e) => handleSensor(e));
 let calibrate = true;
+let stopDraw = true;
 let pen = false;
 let viewLaser = false;
 let initPos;
@@ -52,26 +53,35 @@ function initServerConnection() {
 
 
     //Callback functions for socket communication
+    socket.on("wordoptions", function(data) {
+        console.log(data);
+        startFullRound(data.options);
+    });
+
+    socket.on("gamestate", function(data) {
+        console.log(data);
+
+        if ((data.currentPlayer != null || data.currentPlayer != undefined) && data.currentPlayer.playerUID === localStorage.getItem("userId")) {
+            console.log("IT IS MY TURN");
+
+            socket.emit("getwordoptions");
+        }
+    });
 }
 
 
 function jg(gameid) {
-    socket.emit('joingame', {gameid});
+    socket.emit('joingame', {gameid:gameid, devicetype:"controller"});
   }
-
-// let fullPath = [];
-
-// startTimer();
-let chooseTimer;
 
 
 function onTimesUp() {
-  clearInterval(timerInterval);
   disable();
+  sensor.stop();
 }
 
 function startTimer() {
-  timerInterval = setInterval(() => {
+    var timerInterval = setInterval(() => {
     timePassed = timePassed += 1;
     timeLeft = TIME_LIMIT - timePassed;
     document.getElementById("base-timer-label").innerHTML = formatTime(
@@ -80,8 +90,12 @@ function startTimer() {
     setCircleDasharray();
     setRemainingPathColor(timeLeft);
 
-    if (timeLeft === 0) {
-      onTimesUp();
+    if (timeLeft <= 1) {
+      clearInterval(timerInterval);
+    }
+
+    if (timeLeft <= 0) {
+        onTimesUp();
     }
   }, 1000);
 }
@@ -159,8 +173,8 @@ function navBar() {
   }
 }
 
-function choseOption(id){
-  clearInterval(chooseTimer);
+function choseOption(id, timer){
+  clearInterval(timer);
   document.getElementById('chosenWord').innerHTML = document.getElementById(id).innerHTML;
   if(id === 'choice-1'){
   
@@ -182,9 +196,9 @@ function logout(){
   leaveGame();
 }
 
-function startFullRound(){
+function startFullRound(choice){
   enable();
-  startChosing();
+  startChosing(choice);
 }
 
 function startDrawing(){
@@ -208,6 +222,11 @@ function handleSensor(e){
   // array will be made of [x, y, isPen, colour]
   let penColour = "#cf060a"; 
   let data_out = [dist[0], dist[1], pen, penColour];
+  if (stopDraw){
+    data_out[0] = -9999;
+    data_out[1] = -9999;
+    stopDraw = false;
+  }
   //send to_send
   socket.emit("drawdata", data_out);
 }
@@ -237,24 +256,24 @@ function calcDist(angle, initAngle) {
 }
 
 
-function startChosing(){
+function startChosing(choice){
   //create overlay, fill buttons, start timer, randomly chose after time, then close overlay
   openChoose();
-  document.getElementById('choice-1').innerHTML = 'choice-1';
-  document.getElementById('choice-2').innerHTML = 'choice-2';
-  document.getElementById('choice-3').innerHTML = 'choice-3';
+  document.getElementById('choice-1').innerHTML = choice[0];
+  document.getElementById('choice-2').innerHTML = choice[1];
+  document.getElementById('choice-3').innerHTML = choice[2];
   var choosingTime = 10;
-  chooseTimer = setInterval(function(){
+  var chooseTimer = setInterval(function(){
     choosingTime--;
     document.getElementById('chooseTimer').innerHTML =choosingTime;
     if(choosingTime==0){
       var random = Math.floor(Math.random() * 3)+1;
       if(random == '1'){
-        choseOption("choice-1")
+        choseOption("choice-1", chooseTimer);
       }else if(random == '2'){
-        choseOption("choice-2")
+        choseOption("choice-2", chooseTimer);
       }else{
-        choseOption("choice-3")
+        choseOption("choice-3", chooseTimer);
       }
     }
     
@@ -263,32 +282,6 @@ function startChosing(){
 function sendOption(){
   //use this function to send data to server
 }
-
-// function canvasDraw(){
-//   wh
-// }
-
-
-// document.getElementById("drawButton").ontouchstart = function() {mouseDown()};
-// document.getElementById("drawButton").ontouchend = function() {mouseUp()};
-// console.log('set');
-
-// function mouseDown() {
-//   console.log('down');
-//   //document.getElementById("drawButton").innerHTML = "Drawing..";
-//   pen = true;
-//   viewLaser = false;
-// }
-
-// function mouseUp() {
-//   //show that pen was lifted
-//   fullPath.push([-9999,-9999]);
-//   console.log("Lifted");
-  
-//   //document.getElementById("drawButton").innerHTML = "Draw";
-//   pen = false;
-//   viewLaser = true;  
-// }
 
 
 function canvasClear(){

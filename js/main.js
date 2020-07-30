@@ -3,8 +3,10 @@ const apiAddress = "https://vacweekapi.gdza.xyz/";
 function init(){
     if(!localStorage.getItem('token')){
         $('#myModal').modal('show');
+        document.getElementById('createRoom').disabled = true;
     }else{
         replaceLogin();
+        document.getElementById('createRoom').disabled = false;
     }
 }
 
@@ -82,6 +84,8 @@ function login2(email, password) {
         dataType: 'json',
         success: function(data) { loginCallback(data); }
     } );
+
+    localStorage.setItem('userId', email);
 }
 
 function loginCallback(data) {
