@@ -233,8 +233,8 @@ function handleSensor(e){
   
   dist = angles.map((angle, i) => calcDist(angle, initPos[i]));
   // console.log(dist);
-  // array will be made of [x, y, isPen, colour]
-  let penColour = colourPen; 
+  // array will be made of [x, y, isPen, colour, clear, undo]
+  let penColour = document.getElementById("color").value; 
   let data_out = [dist[0], dist[1], pen, penColour, false, false];
   if (isClear){
     data_out[4] = true;
