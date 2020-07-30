@@ -57,7 +57,7 @@ function init(){
     console.log(colourPen);
     sensor.start();
     
-    // disable();
+    disable();
 }
 
 function initServerConnection() {
