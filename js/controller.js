@@ -225,6 +225,7 @@ function handleSensor(e){
   if (stopDraw){
     data_out[0] = -9999;
     data_out[1] = -9999;
+    alert("stopped drawing");
     data_out[2] = true;
     stopDraw = false;
   }
