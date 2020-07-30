@@ -56,7 +56,7 @@ function initServerConnection() {
         console.log(data);
 
         //setting the room id
-        document.getElementById("serverID").innerHTML = '<h3>Server ID: '+ data.gameId +'</h3>';
+        document.getElementById("serverID").innerHTML = "<h3 class='shadowheading2'>Server ID: "+ data.gameId +'</h3>';
 
         //setting the list of players
         clearPlayers();
@@ -73,7 +73,7 @@ function initServerConnection() {
             }
                 
             if((data.currentPlayer != null || data.currentPlayer != undefined) && data.currentPlayer.playerUID === data.players[i].playerUID){
-                document.getElementById("players").innerHTML += data.players[i].playerUID+' - ' + data.players[i].points + controller + ' (active)' + '&#13;&#10;';
+                document.getElementById("players").innerHTML += data.players[i].playerUID+' - ' + data.players[i].points + controller + ' (active)&#13;&#10;';
             }else{
                 document.getElementById("players").innerHTML += data.players[i].playerUID+ ' - ' + data.players[i].points + controller + '&#13;&#10;';
             }
@@ -88,8 +88,10 @@ function initServerConnection() {
         }
 
         if(list[list.length-1] !== (data.lastGuess.playerUID + ": " + data.lastGuess.guessMade) && data.lastGuess.playerUID != ''){
-            document.getElementById("guesses").innerHTML += data.lastGuess.playerUID + ": " + data.lastGuess.guessMade + (data.lastGuess.correct? " (correct)": "") + '&#13;&#10;';
+            document.getElementById("guesses").innerHTML += ""+data.lastGuess.playerUID + ": " + data.lastGuess.guessMade + (data.lastGuess.correct? " (correct)": "") + '&#13;&#10;';
             list.push(data.lastGuess.playerUID + ": " + data.lastGuess.guessMade);
+            var box = document.getElementById('guesses');
+            box.scrollTop = box.scrollHeight;
         }
 
         if ((data.currentPlayer != null || data.currentPlayer != undefined) && data.currentPlayer.playerUID === localStorage.getItem("userId")) {
@@ -115,9 +117,9 @@ function initServerConnection() {
         }
 
         if (data.roundNumber == 0) {
-            document.getElementById("lobbyRound").innerHTML = "<h3>Not started</h3>";
+            document.getElementById("lobbyRound").innerHTML = "<h3 class='shadowheading2'>Not started</h3>";
         } else {
-            document.getElementById("lobbyRound").innerHTML = "<h3>Round: "+data.roundNumber+"</h3>";
+            document.getElementById("lobbyRound").innerHTML = "<h3 class='shadowheading2'>Round: " + data.roundNumber + "</h3>";
         }
     });
 
@@ -134,6 +136,8 @@ function initServerConnection() {
 //Used to clear the UI when a new turn is started
 function clearUI() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     fullPath = [];
     clearInterval(roundTimer);
     updateTimer(0);
@@ -233,6 +237,8 @@ function laser(dist_data){
        draw(dist_data);
     }else{
      ctx.clearRect(0, 0, canvas.width, canvas.height);
+     ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
   
     let x = dist_data[0] + canvas.width/2;
@@ -264,6 +270,8 @@ function draw(dist_data){
     
     //Clear Canvas and Set Pen Size
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.lineWidth = 1.5;
     
     //Flag for start new Path  ( Pen Lift Indicator -> [-9999, -9999] )

@@ -31,17 +31,21 @@
                 <div class="row" style="align-items: center;">
                     <button id='createRoom'type="button" class="btn btn-primary" style="width: 80%; margin: 7% 7% 0% 7%;opacity:1;font-family: 'Indie Flower', cursive;font-size: 40px;" disabled onclick="createRoom()">Create Room</button>
                 </div>
-                <div class="input-group" style="width: 80%; margin: 7% 7% 0% 7%;opacity:1;">
-                    <input type="text" class="form-control" style="font-family:'Indie Flower', cursive;font-size: 30px;height:100%;" id="joinRoom" placeholder="Server ID" name="joinRoom" oninput="onJoinRoomText()">
-                    <div class="input-group-btn">
-                        <button type="button" class="btn btn-primary" id="joinRoomBtn" style="font-family:'Indie Flower', cursive;font-size: 30px;" disabled onclick="joinRoom()">Join Room</button>
-                    </div>
-                </div>
+                        <div class="input-group" style="width: 80%; margin: 7% 7% 0% 7%;opacity:1;">
+
+                                <input type="text" class="form-control" style="font-family:'Indie Flower', cursive;font-size: 30px;height:100%;" id="joinRoom" placeholder="Server ID" name="joinRoom" oninput="onJoinRoomText()">
+                               
+                                <!-- <div class="input-group-btn"> -->
+                                    <button type="button" class="btn btn-primary" id="joinRoomBtn" style="font-family:'Indie Flower', cursive;font-size: 30px;width:100%;" disabled onclick="joinRoom()">Join Room</button>
+                                <!-- </div> -->
+                        </div>
+                
                 <div class="input-group" style="width: 80%; margin: 7% 7% 0% 7%;opacity:1;">
                     <input type="text" class="form-control" style="font-family:'Indie Flower', cursive;font-size: 30px;height:100%;" id="connectDevice" placeholder="Server ID" name="connectDevice" oninput="onConnectDeviceText()">
-                    <div class="input-group-btn">
-                        <button type="button" class="btn btn-primary" id="connectDeviceBtn" disabled onclick="connectDevice()" style="font-family:'Indie Flower', cursive;font-size: 30px;">Connect Device</button>
-                    </div>
+                    
+                    <!-- <div class="input-group-btn"> -->
+                        <button type="button" class="btn btn-primary" id="connectDeviceBtn" disabled onclick="connectDevice()" style="font-family:'Indie Flower', cursive;font-size: 30px;width:100%;">Connect Device</button>
+                    <!-- </div> -->
                 </div>
             </div>
         </div>

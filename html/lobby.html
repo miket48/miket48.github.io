@@ -9,7 +9,9 @@
   <link rel="stylesheet" href="../css/lobby.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script> 
+
+  <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet"> 
 </head>
 <body style="height: 100%;" onload="init()">
   <div class="topnav" id="myTopnav">
@@ -21,20 +23,20 @@
     </a>
   </div>
   <div id="mobilePage" class='col-sm-9'>
-    <div id="infoBar" class="row" style="height: 10%;">
-      <div id="serverID" class="col-sm-3"><h3>Server Token</h3></div>
-      <div id="divStartButton" class="col-sm-3" style="height: 100%;"><button type="button" id='startgame' onclick="startGame()" style="height: 100%; width: 100%;">Start Game</button></div>
-      <div id="lobbyRound" class="col-sm-3"><h3>Round</h3></div>
-      <div id="lobbyTimer" class="col-sm-3"><h3>Time Remaining <b id="timer">00</b></h3></div>
+    <div id="infoBar" class="row" style="height: 10%; background-color: #9ebae8;padding-right:0px;">
+      <div id="serverID" class="col-sm-3" ><h3 class="shadowheading2">Server Token</h3></div>
+      <div id="lobbyRound" class="col-sm-3"><h3 class="shadowheading2">Round:</h3></div>
+      <div id="lobbyTimer" class="col-sm-3"><h3 class="shadowheading2">Time Left: <b id="timer">00</b></h3></div>
+      <div id="divStartButton" class="col-sm-3" style="height: 100%;margin-right:0;padding-right:0; "><button type="button" class="btn btn-success shadowheading" id='startgame' onclick="startGame()" style="height: 100%; width: 100%;margin-right:0px;color:white;">Start Game</button></div>
     </div>
-    <div id="canvasDiv" class="row" style="height: 90%; background-color: white;">
+    <div id="canvasDiv" class="row" style="height: 90%;">
       <canvas id="Drawing">
       </canvas>
     </div>
   </div>
     <div id="sidePanel" class='col-sm-3'>
-      <div id="playerList" class="row sideBar" style="height: 50%"><textarea id = 'players' disabled>Players:&#13;&#10;</textarea></div>
-      <div id="guessList" class="row sideBar" style="height: 45%"><textarea id = 'guesses' disabled>Your Guesses Are Here:&#13;&#10;</textarea></div>
+      <div id="playerList" class="row sideBar" style="height: 30%"><textarea id = 'players' style=" background-color: rgba(158, 186, 232, 0.97);" disabled>Players:&#13;&#10;</textarea></div>
+      <div id="guessList" class="row sideBar" style="height: 45%"><textarea id = 'guesses' style=" background-color: rgba(158, 186, 232, 0.97);" disabled>Your Guesses Are Here:&#13;&#10;</textarea></div>
       <div class="row" style="height: 5%">
          <div id="inputBar" class="input-group">
                 <input id="guessSubmit" type="text" class="form-control" placeholder="Press Enter to submit answer" style="height: 100%;" disabled>

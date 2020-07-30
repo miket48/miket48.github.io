@@ -46,14 +46,14 @@
     <a href="#home" class="active rainbow">PictionAIRy</a>
     <a style="float: right;" id=""onclick="logout()">Logout</a>
     <a style="float: right" href='./../index.html' id="leaveGame">Leave</a>
-    <a style="float: right"  id="cal" onclick="flipCalibrate()">Calibrate</a>
+    <a style="float: right"  id="cal" onclick="canvasClear()">Clear</a>
     <a href="javascript:void(0);" class="icon" onclick="navBar()">
       <i class="fa fa-bars"></i>
     </a>
   </div>
     <div class='page-header' style="margin:0px;padding:5px;">
         <div class="row" style="height:5%; text-align:center;">
-            <h1 id='chosenWord' style="color: white; text-shadow: 2px 2px #313233;font-family:'Indie Flower', cursive;font-size: 40px;">Place word here</h1>
+            <h1 id='chosenWord' style="color:white; text-shadow:2px 2px #313233;font-family:'Indie Flower', cursive;font-size: 40px;">Place word here</h1>
         </div>
     </div>
     <div class="row">
@@ -118,9 +118,12 @@
     </button>
   </div>
   <div class="col-6">
+    <button type="button" class="btn btn-primary drawControlButton" onclick="flipCalibrate()">
+      <i class="fa fa-bullseye fa-2x"><b style="font-family:'Indie Flower', cursive;font-size: 25px;">&nbsp; Calibrate</b></i>
+    <!-- </button>
     <button type="button" class="btn btn-primary drawControlButton" onclick="canvasClear()">
       <i class="fa fa-trash fa-2x"></i><b style="font-family:'Indie Flower', cursive;font-size: 25px;">&nbsp; Clear</b>
-    </button>
+    </button> -->
     <!-- <div id="create" class="collapse">
     </div> -->
   </div>

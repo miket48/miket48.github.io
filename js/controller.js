@@ -55,7 +55,6 @@ function init(){
     //  document.getElementById("color-button").style.backgroundColor = colourPen+ " !important";
 
     console.log(colourPen);
-    sensor.start();
     
     disable();
 }
